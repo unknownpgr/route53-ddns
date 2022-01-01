@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: route53-iam
-          image: unknownpgr/route53-ddns
+          image: unknownpgr/route53-ddns:amd64
           env:
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
