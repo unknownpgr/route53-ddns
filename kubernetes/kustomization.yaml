@@ -1,0 +1,5 @@
+resources:
+  - route53-ddns.yaml
+secretGenerator:
+  - name: route53-iam
+    env: route53-iam.secret

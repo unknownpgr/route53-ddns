@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: route53-iam
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: route53-iam
+  template:
+    metadata:
+      labels:
+        app: route53-iam
+    spec:
+      containers:
+        - name: route53-iam
+          image: unknownpgr/route53-ddns
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: route53-iam
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: route53-iam
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: TTL
+              value: 300
