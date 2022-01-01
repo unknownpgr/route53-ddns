@@ -34,4 +34,4 @@ spec:
             - name: RECORD
               value: "*.server.unknownpgr.com"
             - name: TTL
-              value: 300
+              value: "300"
