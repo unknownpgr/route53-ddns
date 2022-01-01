@@ -15,6 +15,9 @@ spec:
       containers:
         - name: route53-iam
           image: unknownpgr/route53-ddns:amd64
+          imagePullPolicy: Always
+          stdin: true
+          tty: true
           env:
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
