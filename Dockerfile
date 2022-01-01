@@ -4,5 +4,5 @@ RUN pip install awscli --upgrade
 RUN pip install boto3
 
 COPY src /app
-CMD /app/init.sh
+ENTRYPOINT [ "/app/init.sh" ]
 # RUN aws configure
