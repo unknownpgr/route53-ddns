@@ -82,6 +82,7 @@ while True:
     try:
         update_ip(record_to_update, current_ip, ttl_to_update)
         log('IP successfully updated.')
+        last_updated_ip = current_ip
     except KeyboardInterrupt:
         log("Process killed by user.")
         exit(0)
