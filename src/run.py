@@ -4,7 +4,7 @@ import time
 import datetime
 from urllib.request import urlopen
 
-SLEEP = 5*60
+SLEEP = 30*60
 client = boto3.client('route53')
 
 
@@ -64,7 +64,7 @@ def update_ip(new_name, new_ip, new_ttl):
     )
 
 
-record_to_update = os.environ['RECORD']
+records_to_update = os.environ['RECORD'].split(';')
 ttl_to_update = os.environ['TTL']
 
 try:
@@ -79,15 +79,18 @@ while True:
     if current_ip == last_updated_ip:
         continue
     log('IP changed :', last_updated_ip, '===>', current_ip)
-    try:
-        update_ip(record_to_update, current_ip, ttl_to_update)
-        log('IP successfully updated.')
-        last_updated_ip = current_ip
-    except KeyboardInterrupt:
-        log("Process killed by user.")
-        exit(0)
-    except:
-        log('Falid to update ip.')
+
+    for record_to_update in records_to_update:
+        print("Record :", record_to_update)
+        try:
+            update_ip(record_to_update, current_ip, ttl_to_update)
+            log('IP successfully updated.')
+            last_updated_ip = current_ip
+        except KeyboardInterrupt:
+            log("Process killed by user.")
+            exit(0)
+        except:
+            log('Falid to update ip.')
 
     try:
         log(f'Sleep for {SLEEP}s')

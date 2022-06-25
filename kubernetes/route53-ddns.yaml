@@ -35,6 +35,6 @@ spec:
                   name: route53-iam
                   key: AWS_REGION
             - name: RECORD
-              value: "*.server.unknownpgr.com"
+              value: "*.server.unknownpgr.com;*.unknownpgr.com"
             - name: TTL
               value: "300"
