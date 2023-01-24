@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: route53-ddns
-          image: unknownpgr/route53-ddns:5db8552
+          image: unknownpgr/route53-ddns:latest
           imagePullPolicy: Always
           env:
             - name: RECORD
@@ -23,7 +23,8 @@ spec:
               value: "300"
           volumeMounts:
             - name: secret
-              mountPath: "/app"
+              mountPath: "/root/.aws/config"
+              subPath: config
               readOnly: true
           stdin: true
           tty: true
@@ -32,3 +33,6 @@ spec:
           secret:
             secretName: route53
             optional: false
+            items:
+              - key: config
+                path: config
