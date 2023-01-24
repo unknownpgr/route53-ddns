@@ -17,16 +17,17 @@ def get_ip():
     return urlopen("http://checkip.amazonaws.com").read().decode('utf-8').strip()
 
 
-def update_ip(new_name, new_ip, new_ttl):
+def update_ip(target_name, new_ip, new_ttl):
     response = client.list_hosted_zones_by_name()
     hosted_zones = response['HostedZones']
     for zone in hosted_zones:
         name = zone['Name']
         zone_id = zone['Id']
-        if new_name.endswith(name) or new_name.endswith(name[:-1]):
+        if target_name.endswith(name) or target_name.endswith(name[:-1]):
+            print(name, target_name)
             break
     else:
-        log("Could not find hosted zone for given record :", new_name)
+        log("Could not find hosted zone for given record :", target_name)
         return
 
     response = client.list_resource_record_sets(HostedZoneId=zone_id)
@@ -36,7 +37,7 @@ def update_ip(new_name, new_ip, new_ttl):
         current_type = record['Type']
         ttl = record['TTL']
         current_value = record['ResourceRecords'][0]['Value']
-        if (name == new_name or name[:-1] == new_name):
+        if (name == target_name or name[:-1] == target_name):
             if current_type == 'A' and current_value == new_ip and ttl == new_ttl:
                 log('IP is already up to date. Skip update.')
                 return
@@ -49,7 +50,7 @@ def update_ip(new_name, new_ip, new_ttl):
                 {
                     'Action': 'UPSERT',
                     'ResourceRecordSet': {
-                        'Name': new_name,
+                        'Name': target_name,
                         'Type': 'A',
                         'TTL': new_ttl,
                         'ResourceRecords': [
