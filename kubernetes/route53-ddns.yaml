@@ -1,40 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: route53-iam
+  name: route53-ddns
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: route53-iam
+      app: route53-ddns
   template:
     metadata:
       labels:
-        app: route53-iam
+        app: route53-ddns
     spec:
       containers:
-        - name: route53-iam
-          image: unknownpgr/route53-ddns:amd64
+        - name: route53-ddns
+          image: unknownpgr/route53-ddns:latest
           imagePullPolicy: Always
-          stdin: true
-          tty: true
           env:
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  name: route53-iam
-                  key: AWS_ACCESS_KEY_ID
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: route53-iam
-                  key: AWS_SECRET_ACCESS_KEY
-            - name: AWS_REGION
-              valueFrom:
-                secretKeyRef:
-                  name: route53-iam
-                  key: AWS_REGION
             - name: RECORD
-              value: "*.server.unknownpgr.com;*.unknownpgr.com;*.ction.link;univting.com;*.univting.com";
+              value: "*.server.unknownpgr.com;*.unknownpgr.com;*.ction.link;univting.com;*.univting.com"
             - name: TTL
               value: "300"
+          volumeMounts:
+            - name: secret
+              mountPath: "/app/config"
+              readOnly: true
+          stdin: true
+          tty: true
+      volumes:
+        - name: secret
+          secret:
+            secretName: route53
+            optional: false

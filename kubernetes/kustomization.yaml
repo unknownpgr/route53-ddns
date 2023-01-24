@@ -1,5 +1,7 @@
+namespace: route53-ddns
 resources:
   - route53-ddns.yaml
 secretGenerator:
-  - name: route53-iam
-    env: route53-iam.secret
+  - name: route53
+    files:
+      - route53.secret
