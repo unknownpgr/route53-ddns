@@ -4,4 +4,4 @@ resources:
 secretGenerator:
   - name: route53
     files:
-      - route53.secret
+      - config

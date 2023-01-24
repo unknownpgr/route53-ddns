@@ -79,7 +79,7 @@ while True:
     current_ip = get_ip()
     if current_ip == last_updated_ip:
         continue
-    log('IP changed :', last_updated_ip, '===>', current_ip)
+    log('IP of this machine changed :', last_updated_ip, '===>', current_ip)
 
     for record_to_update in records_to_update:
         print("Record :", record_to_update)
