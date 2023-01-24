@@ -23,8 +23,11 @@ def update_ip(target_name, new_ip, new_ttl):
     for zone in hosted_zones:
         name = zone['Name']
         zone_id = zone['Id']
+        # First condition (.endswith) is for subdomain (e.g. www.example.com)
+        # becase `name` is name of hosted zone (e.g. example.com.), It will not contain subdomain.
+        # Therefore it cannot be retrieved by `name == target_name`.
+        # Second condition (name[:-1]) is for trailing dot in domain name (e.g. example.com.)
         if target_name.endswith(name) or target_name.endswith(name[:-1]):
-            print(name, target_name)
             break
     else:
         log("Could not find hosted zone for given record :", target_name)
@@ -37,6 +40,7 @@ def update_ip(target_name, new_ip, new_ttl):
         current_type = record['Type']
         ttl = record['TTL']
         current_value = record['ResourceRecords'][0]['Value']
+        # Second condition is also for trailing dot in domain name (e.g. example.com.)
         if (name == target_name or name[:-1] == target_name):
             if current_type == 'A' and current_value == new_ip and ttl == new_ttl:
                 log('IP is already up to date. Skip update.')
@@ -63,7 +67,6 @@ def update_ip(target_name, new_ip, new_ttl):
             ]
         }
     )
-
 
 records_to_update = os.environ['RECORD'].split(';')
 ttl_to_update = os.environ['TTL']
