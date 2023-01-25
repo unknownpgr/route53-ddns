@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: route53-ddns
-          image: unknownpgr/route53-ddns:latest
+          image: unknownpgr/route53-ddns
           imagePullPolicy: Always
           env:
             - name: RECORD
