@@ -67,6 +67,7 @@ def update_ip(target_name, new_ip, new_ttl):
             ]
         }
     )
+    log('IP updated successfully.')
 
 records_to_update = os.environ['RECORD'].split(';')
 ttl_to_update = os.environ['TTL']
@@ -74,7 +75,7 @@ ttl_to_update = os.environ['TTL']
 try:
     ttl_to_update = int(ttl_to_update)
 except:
-    log(f'TTL {ttl_to_update} is invalid. TTL must be valid integer.')
+    log(f'Invalid TTL : {ttl_to_update}')
     exit()
 
 last_updated_ip = None
@@ -88,7 +89,6 @@ while True:
         print("Record :", record_to_update)
         try:
             update_ip(record_to_update, current_ip, ttl_to_update)
-            log('IP successfully updated.')
             last_updated_ip = current_ip
         except KeyboardInterrupt:
             log("Process killed by user.")
