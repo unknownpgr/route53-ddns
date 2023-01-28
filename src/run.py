@@ -78,6 +78,11 @@ except:
     log(f'Invalid TTL : {ttl_to_update}')
     exit()
 
+log('Update folloging records:')
+for record in records_to_update:
+    log('    ', record)
+log()
+
 last_updated_ip = None
 while True:
     current_ip = get_ip()
@@ -86,7 +91,7 @@ while True:
     log('IP of this machine changed :', last_updated_ip, '===>', current_ip)
 
     for record_to_update in records_to_update:
-        print("Record :", record_to_update)
+        log("Record :", record_to_update)
         try:
             update_ip(record_to_update, current_ip, ttl_to_update)
             last_updated_ip = current_ip
