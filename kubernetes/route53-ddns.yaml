@@ -14,11 +14,11 @@ spec:
     spec:
       containers:
         - name: route53-ddns
-          image: unknownpgr/route53-ddns
+          image: unknownpgr/route53-ddns:latest
           imagePullPolicy: Always
           env:
             - name: RECORD
-              value: "*.server.unknownpgr.com;*.unknownpgr.com;*.ction.link;univting.com;*.univting.com"
+              value: "*.server.unknownpgr.com;*.unknownpgr.com;*.ction.link;univting.com;*.univting.com;*.ist.sh"
             - name: TTL
               value: "300"
           volumeMounts:
