@@ -41,8 +41,25 @@ region=ap-northeast-1
 output=json
 ```
 
+Then, set records to update in `kubernetes/route53-ddns.yaml`.
+
+```yaml
+# ...
+    spec:
+      containers:
+        - name: route53-ddns
+          image: unknownpgr/route53-ddns:latest
+          imagePullPolicy: Always
+          env:
+            - name: RECORD
+              value: "unknownpgr.com;*.ction.link" # Update here
+            - name: TTL
+              value: "300"
+# ...
+```
+
 Deploy to kubernetes.
 
 ```bash
-$ kubectl apply -f kubernetes/
+$ kubectl apply -k kubernetes/
 ```
